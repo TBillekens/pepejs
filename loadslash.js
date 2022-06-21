@@ -16,9 +16,9 @@ let bot = {
 
 client.slashcommands = new Discord.Collection();
 
-client.loadSlashcommands = (bot, reload) => require('./handlers/slashcommands')(bot, reload);
+client.loadSlashCommands = (bot, reload) => require('./handlers/slashcommands')(bot, reload);
 
-client.loadSlashcommands(bot, false);
+client.loadSlashCommands(bot, false);
 
 client.on('ready', async () => {
     const guild = client.guilds.cache.get(guildId);

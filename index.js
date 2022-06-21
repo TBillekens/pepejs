@@ -9,13 +9,15 @@ const token = process.env.token;
 const clientId = process.env.client_id;
 const guildId = process.env.guild_id;
 const ownerId = process.env.owner_id;
+const tenorKey = process.env.tenor_key;
 
 let bot = {
     client,
     prefix: '!',
     owners: [ownerId],
     clientId,
-    guildId
+    guildId,
+    tenorKey
 };
 
 client.commands = new Discord.Collection();
@@ -34,39 +36,15 @@ client.on('interactionCreate', (interaction) => {
     if (!interaction.isCommand()) return;
     if (!interaction.inGuild()) return interaction.reply('This command can only be used in a server');
 
-    const slash = client.slashcommands.get(interaction.commandName);
+    const slashcmd = client.slashcommands.get(interaction.commandName);
 
-    if (!slash) return interaction.reply('Invalid slash command');
+    if (!slashcmd) return interaction.reply('Invalid slash command');
 
-    if (slash.perm && !interaction.member.permissions.has(slash.perm)) return interaction.reply('You do not have permission for this command');
+    if (slashcmd.perm && !interaction.member.permissions.has(slashcmd.perm)) return interaction.reply('You do not have permission for this command');
 
-    slash.run(client, interaction);
+    slashcmd.run(client, interaction);
 });
-
-console.log('testing');
 
 module.exports = bot;
 
 client.login(token);
-
-// const prefix = '!';
-//
-//
-// client.once('ready', () => {
-//     console.log(`Ready! ${client.user.tag}`);
-// });
-//
-// client.on('messageCreate', (message) => {
-//     if (!message.content.startsWith(prefix) || message.author.bot) return;
-//
-//     const args = message.content.slice(prefix.length).split(/ +/);
-//     const command = args.shift().toLowerCase();
-//
-//     if (command === 'ping') {
-//         message.channel.send('Pong!');
-//     } else if (command === 'help') {
-//         message.channel.send('Your mom is a bot.');
-//     }
-// });
-//
-// client.login(token);
