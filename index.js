@@ -32,15 +32,15 @@ client.loadSlashcommands(bot, false);
 
 client.on('interactionCreate', (interaction) => {
     if (!interaction.isCommand()) return;
-    if (!interaction.inGuild()) return interaction.reply('This command can only be used in a server.');
+    if (!interaction.inGuild()) return interaction.reply('This command can only be used in a server');
 
-    const slashcmd = client.slashcommands.get(interaction.commandName);
+    const slash = client.slashcommands.get(interaction.commandName);
 
-    if (!slashcmd) return interaction.reply('This command does not exist.');
+    if (!slash) return interaction.reply('Invalid slash command');
 
-    if (slashcmd.perms && !interaction.member.permissions.has(slashcmd.perms)) return interaction.reply('You do not have the required permissions.');
+    if (slash.perm && !interaction.member.permissions.has(slash.perm)) return interaction.reply('You do not have permission for this command');
 
-    slashcmd.run(client, interaction);
+    slash.run(client, interaction);
 });
 
 console.log('testing');
